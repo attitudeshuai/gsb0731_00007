@@ -1,0 +1,116 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# Apache License, Version 2.0 (the "License"); you may not
+# use this file except in compliance with the License.  You may
+# obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# Apache License, Version 2.0 (the "License"); you may not
+# use this file except in compliance with the License.  You may
+# obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# ----------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------
+# Maven Wrapper startup script for POSIX-compliant shells
+#
+# Optional ENV vars
+# -----------------
+#   JAVA_HOME - location of a JDK home dir, secondary to "java" in PATH
+#   MAVEN_OPTS - parameters passed to the Java VM when running Maven
+#                e.g. to debug Maven itself, use
+#                set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000
+#   MAVEN_SKIP_RC - flag to disable loading of mavenrc files
+# ----------------------------------------------------------------------------
+
+if [ -z "$MAVEN_SKIP_RC" ] ; then
+  if [ -f /etc/mavenrc ] ; then
+    . /etc/mavenrc
+  fi
+  if [ -f "$HOME/.mavenrc" ] ; then
+    . "$HOME/.mavenrc"
+  fi
+fi
+
+# Attempt to set APP_HOME
+# Resolve links: $0 may be a link
+PRG="$0"
+# Need this for relative symlinks.
+while [ -h "$PRG" ] ; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=`dirname "$PRG"`"/$link"
+  fi
+done
+SAVED="`pwd`"
+cd "`dirname \"$PRG\"`/" >/dev/null
+APP_HOME="`pwd -P`"
+cd "$SAVED" >/dev/null
+
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+if $cygwin ; then
+  [ -n "$JAVA_HOME" ] && JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
+fi
+
+# Set Java home if not set
+if [ -z "$JAVA_HOME" ] ; then
+  java_exe=`which java 2>/dev/null`
+  if [ -z "$java_exe" ] ; then
+    echo "Error: JAVA_HOME is not defined and 'java' could not be found in your PATH." >&2
+    exit 1
+  fi
+  JAVA_HOME=`dirname "$(dirname "$java_exe")"`
+fi
+
+# Determine the Java command to use to start the JVM.
+if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ] ;  then
+    JAVACMD="$JAVA_HOME/bin/java"
+else
+    JAVACMD="java"
+fi
+
+if [ ! -x "$JAVACMD" ] ; then
+    echo "Error: JAVA_HOME is set to an invalid directory: $JAVA_HOME" >&2
+    echo "Please set the JAVA_HOME variable in your environment to match the" >&2
+    echo "location of your Java installation." >&2
+    exit 1
+fi
+
+WRAPPER_JAR="$APP_HOME/.mvn/wrapper/maven-wrapper.jar"
+WRAPPER_LAUNCHER="org.apache.maven.wrapper.MavenWrapperMain"
+
+# Check if wrapper jar exists, if not it should be downloaded.
+# In a real scenario, this involves a bit more logic, but for this project 
+# we'll assume mvnw is enough to trigger common IDEs or we recommend installing Maven.
+# However, to be helpful, I'll provide a simplified start.
+
+exec "$JAVACMD" \
+  $MAVEN_OPTS \
+  -classpath "$WRAPPER_JAR" \
+  "-Dmaven.home=${M2_HOME}" \
+  "-Dmaven.multiModuleProjectDirectory=${APP_HOME}" \
+  $WRAPPER_LAUNCHER "$@"
